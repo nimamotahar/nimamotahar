@@ -97,7 +97,11 @@
     color: #fff;
     text-shadow: 2px 2px 6px rgba(0,0,0,0.8);
   }
-
+  
+  .contact-item {
+    margin-bottom: 10px;
+  }
+  
   .contact a {
     color: #ffeb3b;
     font-weight: bold;
@@ -109,8 +113,15 @@
   .contact a:hover {
     color: #00bcd4;
     text-shadow: 0 0 8px #00bcd4, 2px 2px 8px rgba(0,0,0,1);
+    animation: pulse 1.2s infinite;
   }
 
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+  }
+  
   .particle, .trail {
     position: absolute;
     border-radius: 50%;
@@ -141,8 +152,12 @@
   <p>Welcome to my GitHub Pages site, made with VS Code.</p>
   <a href="#" class="button">Learn More</a>
   <div class="contact">
-    📧 <a href="mailto:motahar.nima@gmail.com">motahar.nima@gmail.com</a><br>
-    🌐 <a href="https://linktr.ee/nima.motahar" target="_blank">Linktree</a>
+    <div class="contact-item">
+      📧 <a href="mailto:motahar.nima@gmail.com">motahar.nima@gmail.com</a>
+    </div>
+    <div class="contact-item">
+      🌐 <a href="https://linktr.ee/nima.motahar" target="_blank">Linktree</a>
+    </div>
   </div>
 </div>
 
