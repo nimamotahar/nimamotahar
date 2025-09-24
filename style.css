@@ -115,7 +115,7 @@ a.pulse-button {
   text-decoration: none;
   transition: 0.3s, text-shadow 0.3s;
   display: inline-block;
-  margin-bottom: 12px; /* improved spacing */
+  margin-bottom: 10px; /* improved spacing */
 }
 
 .contact a:hover {
