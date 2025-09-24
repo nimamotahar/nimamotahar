@@ -3,18 +3,18 @@ const colors = ['#fff', '#ffeb3b', '#00bcd4', '#e91e63', '#4caf50'];
 const numParticles = 40;
 const particles = [];
 
-for(let i=0;i<numParticles;i++){
+for(let i = 0; i < numParticles; i++){
   const p = document.createElement('div');
   p.classList.add('particle');
-  const size = Math.random()*8 + 3;
+  const size = Math.random() * 8 + 3;
   p.style.width = size + 'px';
   p.style.height = size + 'px';
-  p.style.left = Math.random()*window.innerWidth + 'px';
-  p.style.top = Math.random()*window.innerHeight + 'px';
-  p.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
-  p.style.opacity = Math.random()*0.6 + 0.4;
-  p.vx = (Math.random()-0.5)*1.2;
-  p.vy = (Math.random()-0.5)*1.2;
+  p.style.left = Math.random() * window.innerWidth + 'px';
+  p.style.top = Math.random() * window.innerHeight + 'px';
+  p.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+  p.style.opacity = Math.random() * 0.6 + 0.4;
+  p.vx = (Math.random() - 0.5) * 1.2;
+  p.vy = (Math.random() - 0.5) * 1.2;
 
   const trail = document.createElement('div');
   trail.classList.add('trail');
@@ -31,7 +31,7 @@ for(let i=0;i<numParticles;i++){
 }
 
 function animateParticles(){
-  particles.forEach(p=>{
+  particles.forEach(p => {
     let x = parseFloat(p.style.left);
     let y = parseFloat(p.style.top);
 
@@ -53,44 +53,31 @@ function animateParticles(){
 }
 animateParticles();
 
-document.addEventListener('mousemove', e=>{
-  particles.forEach(p=>{
+document.addEventListener('mousemove', e => {
+  particles.forEach(p => {
     const px = parseFloat(p.style.left);
     const py = parseFloat(p.style.top);
     const dx = e.clientX - px;
     const dy = e.clientY - py;
     const dist = Math.sqrt(dx*dx + dy*dy);
-    if(dist<120){
+    if(dist < 120){
       const angle = Math.atan2(dy, dx);
-      const force = (120-dist)/120 * 10;
-      p.style.transform = `translate(${Math.cos(angle)*force}px, ${Math.sin(angle)*force}px) scale(${1+force/20})`;
-      p.trail.style.transform = `translate(${Math.cos(angle)*force*0.5}px, ${Math.sin(angle)*force*0.5}px) scale(${1+force/40})`;
+      const force = (120 - dist) / 120 * 10;
+      p.style.transform = `translate(${Math.cos(angle)*force}px, ${Math.sin(angle)*force}px) scale(${1 + force/20})`;
+      p.trail.style.transform = `translate(${Math.cos(angle)*force*0.5}px, ${Math.sin(angle)*force*0.5}px) scale(${1 + force/40})`;
     } else {
-      p.style.transform = `translate(0,0) scale(1)`;
-      p.trail.style.transform = `translate(0,0) scale(1)`;
+      p.style.transform = 'translate(0,0) scale(1)';
+      p.trail.style.transform = 'translate(0,0) scale(1)';
     }
   });
 });
 
-// --- CARD CONTENT SWAP ---
-const cardContent = document.querySelector('.card');
-const learnBtn = document.querySelector('.button'); // Learn More button
-const defaultHTML = cardContent.innerHTML; // save default content
+// --- CARD CONTENT SWAP LOGIC ---
+const cardContent = document.querySelector('.card-content');
+const learnBtn = document.getElementById('learn-more');
+const defaultHTML = cardContent.innerHTML;
 
-learnBtn.addEventListener('click', e=>{
+learnBtn.addEventListener('click', e => {
   e.preventDefault();
-  learnBtn.style.display = 'none';
+  learnBtn.style.display = 'none'; // hide Learn More
 
-  cardContent.innerHTML = `
-    <h1>👋 Nima here</h1>
-    <p>ex-architect working in tech 💻 | Feel free to say Hi!</p>
-    <a href="#" class="button" id="back-btn">Back</a>
-  `;
-
-  const backBtn = document.getElementById('back-btn');
-  backBtn.addEventListener('click', e=>{
-    e.preventDefault();
-    cardContent.innerHTML = defaultHTML;
-    learnBtn.style.display = 'inline-block';
-  });
-});
