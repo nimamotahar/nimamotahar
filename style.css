@@ -121,7 +121,6 @@ a.pulse-button {
 .contact a:hover {
   color: #00bcd4;
   text-shadow: 0 0 8px #00bcd4, 2px 2px 8px rgba(0,0,0,1);
-  animation: pulse 1.2s infinite;
 }
 
 /* PARTICLES */
