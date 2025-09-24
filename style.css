@@ -1,4 +1,4 @@
-/* --- GENERAL BODY & BACKGROUND --- */
+/* GENERAL BODY & BACKGROUND */
 body {
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -19,7 +19,7 @@ body {
   100% {background-position:0% 50%;}
 }
 
-/* --- CARD STYLING --- */
+/* CARD STYLING */
 .card {
   position: relative;
   z-index: 2;
@@ -31,25 +31,19 @@ body {
   box-shadow: 0 8px 30px rgba(0,0,0,0.3);
   backdrop-filter: blur(10px);
   transition: transform 0.3s, box-shadow 0.3s;
-  width: 600px;       /* FIXED width */
-  height: 350px;      /* FIXED height */
+  max-width: 600px;
+  min-height: 300px; /* Fixed height to prevent resize */
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  overflow: hidden;
 }
 
-.card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 15px 40px rgba(0,0,0,0.4);
-}
-
-/* --- CARD CONTENT --- */
+/* CARD CONTENT */
 .card-content {
   transition: opacity 0.5s ease;
 }
 
+/* HEADINGS & PARAGRAPHS */
 h1 {
   margin: 0 0 15px;
   font-size: 3rem;
@@ -78,7 +72,7 @@ p {
   text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
 }
 
-/* --- BUTTONS --- */
+/* BUTTONS */
 a.button {
   display: inline-block;
   padding: 12px 30px;
@@ -106,7 +100,7 @@ a.pulse-button {
   50% { transform: scale(1.05); }
 }
 
-/* --- CONTACT --- */
+/* CONTACT */
 .contact {
   margin-top: 20px;
   font-size: 1rem;
@@ -134,7 +128,7 @@ a.pulse-button {
   text-shadow: 0 0 6px #00bcd4;
 }
 
-/* --- PARTICLES --- */
+/* PARTICLES */
 .particle, .trail {
   position: absolute;
   border-radius: 50%;
@@ -146,7 +140,7 @@ a.pulse-button {
   opacity: 0.2;
 }
 
-/* --- ANIMATIONS --- */
+/* ANIMATIONS */
 .fade-slide-in {
   opacity: 0;
   transform: translateY(15px);
@@ -160,12 +154,10 @@ a.pulse-button {
   }
 }
 
-/* --- RESPONSIVE --- */
+/* RESPONSIVE */
 @media (max-width: 600px) {
   .card {
     padding: 30px 20px;
-    width: 90%;
-    height: 350px;
   }
   h1 {
     font-size: 2.2rem;
