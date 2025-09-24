@@ -44,32 +44,31 @@
     box-shadow: 0 15px 40px rgba(0,0,0,0.4);
   }
 
-  h1 {
+  h1, .typing-header {
     margin: 0 0 15px;
     font-size: 3rem;
     text-shadow: 2px 2px 6px rgba(0,0,0,0.5);
     overflow: hidden;
-    border-right: .15em solid #fff;
     white-space: nowrap;
-    width: 0;
-    animation: typing 3s steps(30, end) forwards, blink-caret .7s step-end infinite;
-  }
-
-  @keyframes typing {
-    from { width: 0; }
-    to { width: 100%; }
+    border-right: .15em solid #fff;
+    transition: transform 0.25s ease, text-shadow 0.25s ease;
   }
 
   @keyframes blink-caret {
-    from, to { border-color: transparent; }
+    0%, 100% { border-color: transparent; }
     50% { border-color: white; }
   }
 
-  p {
+  .typing-header {
+    animation: blink-caret .7s step-end infinite;
+  }
+
+  p, .fade-paragraph {
     font-size: 1.2rem;
     line-height: 1.6;
     margin: 0 auto 20px;
     text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+    transition: transform 0.25s ease, opacity 0.5s ease, text-shadow 0.25s ease;
   }
 
   a.button {
@@ -90,28 +89,7 @@
     box-shadow: 0 8px 20px rgba(0,0,0,0.4);
   }
 
-  .contact {
-    text-align: left;
-    margin-top: 20px;
-    font-size: 1rem;
-    color: #fff;
-    text-shadow: 2px 2px 6px rgba(0,0,0,0.8);
-  }
-  
-  .contact-item {
-    margin-bottom: 10px;
-  }
-  
-  .contact a {
-    color: #ffeb3b;
-    text-decoration: none;
-    transition: 0.3s;
-    text-shadow: 2px 2px 5px rgba(0,0,0,0.8);
-  }
-  
-  .contact a:hover {
-    color: #00bcd4;
-    text-shadow: 0 0 8px #00bcd4, 2px 2px 8px rgba(0,0,0,1);
+  .pulse-button {
     animation: pulse 1.2s infinite;
   }
 
@@ -120,7 +98,26 @@
     50% { transform: scale(1.08); }
     100% { transform: scale(1); }
   }
-  
+
+  .contact {
+    margin-top: 20px;
+    font-size: 1rem;
+    color: #fff;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+    text-align: left;
+  }
+
+  .contact a {
+    color: #ffeb3b;
+    text-decoration: none;
+    transition: 0.3s, text-shadow 0.3s;
+  }
+
+  .contact a:hover {
+    color: #00bcd4;
+    text-shadow: 0 0 8px #00bcd4;
+  }
+
   .particle, .trail {
     position: absolute;
     border-radius: 50%;
@@ -136,10 +133,10 @@
     .card {
       padding: 30px 20px;
     }
-    h1 {
+    h1, .typing-header {
       font-size: 2.2rem;
     }
-    p {
+    p, .fade-paragraph {
       font-size: 1rem;
     }
   }
@@ -147,16 +144,14 @@
 </head>
 <body>
 <div class="card">
-  <h1>Hello, world!</h1>
-  <p>Welcome to my GitHub Pages site, made with VS Code.</p>
-  <a href="#" class="button">Learn More</a>
+  <div class="card-content">
+    <h1>Hello, world!</h1>
+    <p>Welcome to my GitHub Pages site, made with VS Code.</p>
+  </div>
+  <a href="#" class="button" id="learn-more">Learn More</a>
   <div class="contact">
-    <div class="contact-item">
-      📧 <a href="mailto:motahar.nima@gmail.com">motahar.nima@gmail.com</a>
-    </div>
-    <div class="contact-item">
-      🌐 <a href="https://linktr.ee/nima.motahar" target="_blank">Linktree</a>
-    </div>
+    📧 <a href="mailto:motahar.nima@gmail.com">motahar.nima@gmail.com</a><br>
+    🌐 <a href="https://linktr.ee/nima.motahar" target="_blank">Linktree</a>
   </div>
 </div>
 
@@ -164,7 +159,6 @@
 const colors = ['#fff', '#ffeb3b', '#00bcd4', '#e91e63', '#4caf50'];
 const numParticles = 40;
 const particles = [];
-
 for(let i=0;i<numParticles;i++){
   const p = document.createElement('div');
   p.classList.add('particle');
@@ -197,16 +191,12 @@ function animateParticles(){
   particles.forEach(p=>{
     let x = parseFloat(p.style.left);
     let y = parseFloat(p.style.top);
-
     x += p.vx;
     y += p.vy;
-
     if(x < 0 || x > window.innerWidth) p.vx *= -1;
     if(y < 0 || y > window.innerHeight) p.vy *= -1;
-
     p.style.left = x + 'px';
     p.style.top = y + 'px';
-
     const tx = parseFloat(p.trail.style.left);
     const ty = parseFloat(p.trail.style.top);
     p.trail.style.left = tx + (x - tx) * 0.2 + 'px';
@@ -232,6 +222,63 @@ document.addEventListener('mousemove', e=>{
       p.style.transform = `translate(0,0) scale(1)`;
       p.trail.style.transform = `translate(0,0) scale(1)`;
     }
+  });
+});
+
+const learnBtn = document.getElementById('learn-more');
+const cardContent = document.querySelector('.card-content');
+const defaultHTML = cardContent.innerHTML;
+
+learnBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+
+  cardContent.innerHTML = `
+    <h1 class="typing-header"></h1>
+    <p class="fade-paragraph">ex-architect working in tech 💻 | Feel free to say hi!</p>
+    <a href="#" class="button pulse-button" id="back-btn">Back</a>
+  `;
+
+  const header = cardContent.querySelector('.typing-header');
+  const paragraph = cardContent.querySelector('.fade-paragraph');
+  const backBtn = cardContent.querySelector('#back-btn');
+  paragraph.style.opacity = 0;
+
+  const text = "👋 Nima here";
+  let i = 0;
+  function type() {
+    if (i < text.length) {
+      header.innerHTML += text.charAt(i);
+      i++;
+      setTimeout(type, 100);
+    } else {
+      paragraph.style.transition = 'opacity 1s';
+      paragraph.style.opacity = 1;
+    }
+  }
+  type();
+
+  backBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    cardContent.innerHTML = defaultHTML;
+  });
+
+  const interactiveElements = [header, paragraph, backBtn];
+  document.addEventListener('mousemove', function(e) {
+    interactiveElements.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      const dx = e.clientX - (rect.left + rect.width / 2);
+      const dy = e.clientY - (rect.top + rect.height / 2);
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      if(dist < 100){
+        const angle = Math.atan2(dy, dx);
+        const force = (100 - dist)/100 * 5;
+        el.style.transform = `translate(${Math.cos(angle)*force}px, ${Math.sin(angle)*force}px) scale(${1 + force/100})`;
+        el.style.textShadow = `0 0 ${force*1.5}px #fff`;
+      } else {
+        el.style.transform = 'translate(0,0) scale(1)';
+        el.style.textShadow = '';
+      }
+    });
   });
 });
 </script>
