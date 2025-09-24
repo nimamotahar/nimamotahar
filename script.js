@@ -13,6 +13,7 @@ for(let i=0;i<numParticles;i++){
   p.style.top = Math.random()*window.innerHeight + 'px';
   p.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
   p.style.opacity = Math.random()*0.6 + 0.4;
+  p.dataset.size = size;
   p.vx = (Math.random()-0.5)*1.2;
   p.vy = (Math.random()-0.5)*1.2;
 
@@ -72,63 +73,74 @@ document.addEventListener('mousemove', e=>{
   });
 });
 
-// LEARN MORE / BACK BUTTON LOGIC
+// LEARN MORE / BACK
 const learnBtn = document.getElementById('learn-more');
 const cardContent = document.querySelector('.card-content');
 const defaultHTML = cardContent.innerHTML;
 
-learnBtn.addEventListener('click', e=>{
+learnBtn.addEventListener('click', (e) => {
   e.preventDefault();
-  learnBtn.style.display = 'none';
-  cardContent.style.opacity = 0;
+  learnBtn.style.display = 'none'; // hide Learn More
+  cardContent.style.opacity = 0; // fade out
 
-  setTimeout(()=>{
+  setTimeout(() => {
     cardContent.innerHTML = `
-      <h1 class="typing-header fade-slide-in"></h1>
-      <p class="fade-paragraph fade-slide-in">ex-architect working in tech 💻 | Feel free to say hi!</p>
-      <a href="#" class="button pulse-button fade-slide-in" id="back-btn">Back</a>
+      <h1 class="typing-header"></h1>
+      <p class="fade-paragraph">ex-architect working in tech 💻 | Feel free to say hi!</p>
+      <a href="#" class="button pulse-button" id="back-btn">Back</a>
     `;
-    cardContent.style.opacity = 1;
-
     const header = cardContent.querySelector('.typing-header');
     const paragraph = cardContent.querySelector('.fade-paragraph');
     const backBtn = cardContent.querySelector('#back-btn');
+    paragraph.style.opacity = 0;
+
+    setTimeout(() => cardContent.style.opacity = 1, 50);
 
     // Typing animation
     const text = "👋 Nima here";
     let i = 0;
     function type() {
-      if(i<text.length){
+      if (i < text.length) {
         header.innerHTML += text.charAt(i);
         i++;
         setTimeout(type, 100);
+      } else {
+        paragraph.style.transition = 'opacity 1s';
+        paragraph.style.opacity = 1;
       }
     }
     type();
 
-    backBtn.addEventListener('click', e=>{
+    // Back button restores original content
+    backBtn.addEventListener('click', (e) => {
       e.preventDefault();
       cardContent.style.opacity = 0;
-      setTimeout(()=>{
+      setTimeout(() => {
         cardContent.innerHTML = defaultHTML;
         learnBtn.style.display = 'inline-block';
-        cardContent.style.opacity = 1;
-
-        // Animate contact links
-        const contactLinks = document.querySelectorAll('.contact a');
-        contactLinks.forEach((link,index)=>{
-          link.classList.remove('show');
-          setTimeout(()=>link.classList.add('show'), index*100);
-        });
-      },300);
+        setTimeout(() => cardContent.style.opacity = 1, 50);
+      }, 300);
     });
-  }, 300);
-});
 
-// INITIAL CONTACT LINKS ANIMATION
-window.addEventListener('load', ()=>{
-  const contactLinks = document.querySelectorAll('.contact a');
-  contactLinks.forEach((link,index)=>{
-    setTimeout(()=>link.classList.add('show'), index*100);
-  });
+    // Cursor interaction for new content
+    const interactiveElements = [header, paragraph, backBtn];
+    document.addEventListener('mousemove', function(e) {
+      interactiveElements.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        const dx = e.clientX - (rect.left + rect.width / 2);
+        const dy = e.clientY - (rect.top + rect.height / 2);
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if(dist < 100){
+          const angle = Math.atan2(dy, dx);
+          const force = (100 - dist)/100 * 5;
+          el.style.transform = `translate(${Math.cos(angle)*force}px, ${Math.sin(angle)*force}px) scale(${1 + force/100})`;
+          el.style.textShadow = `0 0 ${force*1.5}px #fff`;
+        } else {
+          el.style.transform = 'translate(0,0) scale(1)';
+          el.style.textShadow = '';
+        }
+      });
+    });
+
+  }, 300); // wait for fade-out
 });
