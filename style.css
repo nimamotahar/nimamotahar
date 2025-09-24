@@ -1,0 +1,148 @@
+/* GENERAL BODY & BACKGROUND */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(270deg, #1abc9c, #3498db, #9b59b6, #e74c3c);
+  background-size: 800% 800%;
+  animation: gradientAnimation 15s ease infinite;
+  position: relative;
+}
+
+@keyframes gradientAnimation {
+  0% {background-position:0% 50%;}
+  50% {background-position:100% 50%;}
+  100% {background-position:0% 50%;}
+}
+
+/* CARD STYLING */
+.card {
+  position: relative;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 40px 60px;
+  border-radius: 20px;
+  text-align: center;
+  color: #fff;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s, box-shadow 0.3s;
+  max-width: 600px;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+}
+
+.card-content {
+  transition: opacity 0.5s ease;
+}
+
+/* HEADINGS & PARAGRAPHS */
+h1 {
+  margin: 0 0 15px;
+  font-size: 3rem;
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.5);
+  overflow: hidden;
+  border-right: .15em solid #fff;
+  white-space: nowrap;
+  width: 0;
+  animation: typing 3s steps(30, end) forwards, blink-caret .7s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent; }
+  50% { border-color: white; }
+}
+
+p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  margin: 0 auto 20px;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+}
+
+/* BUTTONS */
+a.button {
+  display: inline-block;
+  padding: 12px 30px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
+  color: #fff;
+  background: linear-gradient(90deg, #00bcd4, #ffeb3b, #e91e63);
+  background-size: 200% 200%;
+  transition: 0.4s;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+a.button:hover {
+  background-position: 100% 0;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+
+a.pulse-button {
+  animation: pulse 1.2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* CONTACT */
+.contact {
+  margin-top: 20px;
+  font-size: 1rem;
+  color: #fff;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+  text-align: left;
+}
+
+.contact a {
+  color: #ffeb3b;
+  text-decoration: none;
+  transition: 0.3s, text-shadow 0.3s;
+  display: inline-block;
+  margin-bottom: 8px; /* spacing between lines */
+}
+
+.contact a:hover {
+  color: #00bcd4;
+  text-shadow: 0 0 6px #00bcd4;
+}
+
+/* PARTICLES */
+.particle, .trail {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  transition: transform 0.2s;
+}
+
+.trail {
+  opacity: 0.2;
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  .card {
+    padding: 30px 20px;
+  }
+  h1 {
+    font-size: 2.2rem;
+  }
+  p {
+    font-size: 1rem;
+  }
+}
