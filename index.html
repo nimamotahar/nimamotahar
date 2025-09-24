@@ -44,6 +44,10 @@
     box-shadow: 0 15px 40px rgba(0,0,0,0.4);
   }
 
+  .card-content {
+    transition: opacity 0.5s ease;
+  }
+  
   h1, .typing-header {
     margin: 0 0 15px;
     font-size: 3rem;
@@ -111,6 +115,8 @@
     color: #ffeb3b;
     text-decoration: none;
     transition: 0.3s, text-shadow 0.3s;
+    display: inline-block;
+    margin-bottom: 8px;
   }
 
   .contact a:hover {
@@ -231,55 +237,68 @@ const defaultHTML = cardContent.innerHTML;
 
 learnBtn.addEventListener('click', (e) => {
   e.preventDefault();
+  learnBtn.style.display = 'none';
 
-  cardContent.innerHTML = `
-    <h1 class="typing-header"></h1>
-    <p class="fade-paragraph">ex-architect working in tech 💻 | Feel free to say hi!</p>
-    <a href="#" class="button pulse-button" id="back-btn">Back</a>
-  `;
+  cardContent.style.opacity = 0;
 
-  const header = cardContent.querySelector('.typing-header');
-  const paragraph = cardContent.querySelector('.fade-paragraph');
-  const backBtn = cardContent.querySelector('#back-btn');
-  paragraph.style.opacity = 0;
+  setTimeout(() => {
+    cardContent.innerHTML = `
+      <h1 class="typing-header"></h1>
+      <p class="fade-paragraph">ex-architect working in tech 💻 | Feel free to say hi!</p>
+      <a href="#" class="button pulse-button" id="back-btn">Back</a>
+    `;
 
-  const text = "👋 Nima here";
-  let i = 0;
-  function type() {
-    if (i < text.length) {
-      header.innerHTML += text.charAt(i);
-      i++;
-      setTimeout(type, 100);
-    } else {
-      paragraph.style.transition = 'opacity 1s';
-      paragraph.style.opacity = 1;
-    }
-  }
-  type();
+    const header = cardContent.querySelector('.typing-header');
+    const paragraph = cardContent.querySelector('.fade-paragraph');
+    const backBtn = cardContent.querySelector('#back-btn');
+    paragraph.style.opacity = 0;
 
-  backBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    cardContent.innerHTML = defaultHTML;
-  });
+    setTimeout(() => cardContent.style.opacity = 1, 50);
 
-  const interactiveElements = [header, paragraph, backBtn];
-  document.addEventListener('mousemove', function(e) {
-    interactiveElements.forEach(el => {
-      const rect = el.getBoundingClientRect();
-      const dx = e.clientX - (rect.left + rect.width / 2);
-      const dy = e.clientY - (rect.top + rect.height / 2);
-      const dist = Math.sqrt(dx*dx + dy*dy);
-      if(dist < 100){
-        const angle = Math.atan2(dy, dx);
-        const force = (100 - dist)/100 * 5;
-        el.style.transform = `translate(${Math.cos(angle)*force}px, ${Math.sin(angle)*force}px) scale(${1 + force/100})`;
-        el.style.textShadow = `0 0 ${force*1.5}px #fff`;
+    const text = "👋 Nima here";
+    let i = 0;
+    function type() {
+      if (i < text.length) {
+        header.innerHTML += text.charAt(i);
+        i++;
+        setTimeout(type, 100);
       } else {
-        el.style.transform = 'translate(0,0) scale(1)';
-        el.style.textShadow = '';
+        paragraph.style.transition = 'opacity 1s';
+        paragraph.style.opacity = 1;
       }
+    }
+    type();
+
+    backBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      cardContent.style.opacity = 0;
+      setTimeout(() => {
+        cardContent.innerHTML = defaultHTML;
+        learnBtn.style.display = 'inline-block';
+        setTimeout(() => cardContent.style.opacity = 1, 50);
+      }, 300);
     });
-  });
+
+    const interactiveElements = [header, paragraph, backBtn];
+    document.addEventListener('mousemove', function(e) {
+      interactiveElements.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        const dx = e.clientX - (rect.left + rect.width / 2);
+        const dy = e.clientY - (rect.top + rect.height / 2);
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if(dist < 100){
+          const angle = Math.atan2(dy, dx);
+          const force = (100 - dist)/100 * 5;
+          el.style.transform = `translate(${Math.cos(angle)*force}px, ${Math.sin(angle)*force}px) scale(${1 + force/100})`;
+          el.style.textShadow = `0 0 ${force*1.5}px #fff`;
+        } else {
+          el.style.transform = 'translate(0,0) scale(1)';
+          el.style.textShadow = '';
+        }
+      });
+    });
+
+  }, 300);
 });
 </script>
 </body>
