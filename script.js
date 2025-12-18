@@ -90,7 +90,7 @@ function showMore() {
   setTimeout(() => {
     cardContent.innerHTML = `
       <h1 class="typing-header"></h1>
-      <p class="fade-paragraph">ex-architect working in tech 💻 | Feel free to say hi!</p>
+      <p class="fade-paragraph">Feel free to say hi!</p>
       <a href="#" class="button pulse-button" id="back-btn">Back</a>
     `;
     const header = cardContent.querySelector('.typing-header');
